@@ -116,12 +116,6 @@ bowtie2 -x $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_2 \
 # For single-end reads
 bowtie2 -x $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_2 \
   -U R.trim.fastq -S R.trim.bowtie2.sam
-
-# bbmap
-# see https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbmap-guide/
-bbmap.sh ref=$YOURPATH/reference_database/complete_bacterialRefSeqs_201910_2.fasta \
-        in=R1.trim.fastq in2=R2.trim.fastq \
-        out=R.trim.bbmap.sam
 ```
 
 ### Sorting, indexing & final clean-up
