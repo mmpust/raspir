@@ -32,8 +32,6 @@ conda install -c bioconda samtools
 conda install -c bioconda bwa
 # Bowtie2 [4]
 conda install -c bioconda/label/cf201901 bowtie2
-# bbmap [6]
-conda install -c bioconda/label/cf201901 bbmap
 
 # Install python packages for raspir
 conda install pandas
@@ -184,4 +182,3 @@ A table is generated (.CSV format). The assignment output has 9 columns.
 [2] Li H., Handsaker B., Wysoker A. et al. (2009) The Sequence alignment/map (SAM) format and SAMtools. Bioinformatics, 25, 2078-9. <br>
 [3] Li H. and Durbin R. (2009) Fast and accurate short read alignment with Burrows-Wheeler Transform. Bioinformatics, 25:1754-60. <br>
 [4] Langmead B, Salzberg S. Fast gapped-read alignment with Bowtie 2. Nature Methods. 2012, 9:357-359. <br>
-[5] Heng Li, Minimap2: pairwise alignment for nucleotide sequences, Bioinformatics, Volume 34, Issue 18, 15 September 2018, Pages 3094–3100 <br>
