@@ -178,7 +178,7 @@ A table is generated (.CSV format). The assignment output has 9 columns.
 | :---:   | :-: | :-: | :-: | :-: | :-: | 
 | Pseudomonas aeruginosa | 0.99 | 0.0 | 0.00019 | 0.01 | uniform |
 | Streptococcus salivarius | 0.97 | 0.0 | 0.00016 | 0.002 | uniform |
-| Rothia mucilaginosa | 0.99 | 0.0 | 0.000002 | -0.0001 | uniform | 
+| Rothia mucilaginosa | 0.99 | 0.0 | 0.000002 | 0.0001 | uniform | 
 
 # References
 [1] Bolger, A. M., Lohse, M., & Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170. <br>
