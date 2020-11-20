@@ -50,7 +50,6 @@ YOURPATH=$PWD
 echo "$YOURPATH"
 
 mkdir reference_database/
-mkdir input_data/
 mkdir run_raspir/
 ```
 
@@ -62,15 +61,14 @@ Note: You may also use a customised reference database. It is however strongly r
 ```bash
 # Load database into your working directory
 cd reference_database/
-wget https://sync.academiccloud.de/index.php/s/Zx5YDzT9nnblie4/download
-
+wget https://sync.academiccloud.de/index.php/s/wSFAaUpfkjY4fZG/download
 # Unzip the reference database 
-gunzip complete_bacterialRefSeqs_201910_2.fasta
+gunzip complete_bacterialRefSeqs_201910_3.fasta
 
 # Generate an index of the reference fasta depending on the alignment tool of your choice
-samtools faidx complete_bacterialRefSeqs_201910_2.fasta
-bwa index complete_bacterialRefSeqs_201910_2.fasta
-bowtie2-build complete_bacterialRefSeqs_201910_2.fasta complete_bacterialRefSeqs_201910_2
+samtools faidx complete_bacterialRefSeqs_201910_3.fasta
+bwa index complete_bacterialRefSeqs_201910_3.fasta
+bowtie2-build complete_bacterialRefSeqs_201910_3.fasta complete_bacterialRefSeqs_201910_3
 cd ..
 ```
 
@@ -79,7 +77,7 @@ cd ..
 Load your .FASTQ files into the working directory and run Trimmomatic for quality trimming and adapter clipping.
 
 ```bash
-cd input_data/
+cd run_raspir/
 
 # Paired-end data
 trimmomatic PE \
@@ -100,19 +98,19 @@ trimmomatic SE \
 # Burrows-Wheeler-Aligner (bwa)
 # see http://bio-bwa.sourceforge.net/
 # For paired-end reads
-bwa mem $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_2.fasta \
+bwa mem $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_3.fasta \
   R1.trim.fastq R2.trim.fastq > R.trim.bwa.sam
 # For single-end reads
-bwa mem $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_2.fasta \
+bwa mem $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_3.fasta \
   R.trim.fastq > R.trim.bwa.sam
 
 # Bowtie2
 # see http://bowtie-bio.sourceforge.net/
 # For paired-end reads
-bowtie2 -x $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_2 \
+bowtie2 -x $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_3 \
   -1 R1.trim.fastq -2 R2.trim.fastq -S R.trim.bowtie2.sam
 # For single-end reads
-bowtie2 -x $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_2 \
+bowtie2 -x $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_3 \
   -U R.trim.fastq -S R.trim.bowtie2.sam
 ```
 
@@ -172,7 +170,7 @@ python3 raspir_v1_0_win.py
 ```
 
 # Output
-A table is generated (.CSV format). The assignment output has 9 columns.
+A table is generated (.CSV format). The assignment output has 6 columns.
 
 | Species | r_value  | p_value  | stError | euclidean_sim | distribution |
 | :---:   | :-: | :-: | :-: | :-: | :-: | 
