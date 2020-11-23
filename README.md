@@ -172,7 +172,7 @@ python3 raspir_v1_0_win.py
 # Output
 A table is generated (.CSV format). The assignment output has 6 columns.
 
-| Species | r_value  | p_value  | stError | euclidean_sim | distribution |
+| Species | r_value  | p_value  | stError | euclidean | distribution |
 | :---:   | :-: | :-: | :-: | :-: | :-: | 
 | Pseudomonas aeruginosa | 0.99 | 0.0 | 0.00019 | 0.01 | uniform |
 | Streptococcus salivarius | 0.97 | 0.0 | 0.00016 | 0.002 | uniform |
