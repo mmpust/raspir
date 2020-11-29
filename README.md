@@ -61,7 +61,8 @@ Note: You may also use a customised reference database. It is however strongly r
 ```bash
 # Load database into your working directory
 cd reference_database/
-wget https://sync.academiccloud.de/index.php/s/wSFAaUpfkjY4fZG/download
+# Get database from
+https://sync.academiccloud.de/index.php/s/wSFAaUpfkjY4fZG/download
 # Unzip the reference database 
 gunzip complete_bacterialRefSeqs_201910_3.fasta
 
