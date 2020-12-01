@@ -4,7 +4,7 @@
 # raspir
 # Author: Marie-Madlen Pust
 # pust.marie-madlen@mh-hannover.de
-# Last updated:
+# Last updated: 30 Nov 2020
 
 
 # Import python modules
@@ -25,7 +25,7 @@ matplotlib.use('Agg')
 # Set parameters
 set_error = 0.01
 set_alpha = 0.05
-
+norm_cpm = 1000000
 
 # Define range of the reference's read distance
 def frange(start, stop, step):
@@ -134,8 +134,8 @@ def fourier_trans(x):
     
     x['fft_abs_ref'] = np.abs(x['fft_ref'])
     x['fft_abs_bio'] = np.abs(x['fft_bio'])
-    x['fft_abs_ref_sqrt'] = np.around(x['fft_abs_ref'] / 1000000, 2)
-    x['fft_abs_bio_sqrt'] = np.around(x['fft_abs_bio'] / 1000000, 2)
+    x['fft_abs_ref_sqrt'] = np.around(x['fft_abs_ref'] / norm_cpm, 2)
+    x['fft_abs_bio_sqrt'] = np.around(x['fft_abs_bio'] / norm_cpm, 2)
 
     # Pearson correlation
     if (sum(x['fft_abs_ref_sqrt']) > 0) & (sum(x['fft_abs_bio_sqrt']) > 0):
@@ -162,8 +162,8 @@ def make_freq_images(x):
 
     x['fft_abs_ref'] = np.abs(x['fft_ref'])
     x['fft_abs_bio'] = np.abs(x['fft_bio'])
-    x['fft_abs_ref_sqrt'] = np.around(x['fft_abs_ref'] / 1000000, 2)
-    x['fft_abs_bio_sqrt'] = np.around(x['fft_abs_bio'] / 1000000, 2)
+    x['fft_abs_ref_sqrt'] = np.around(x['fft_abs_ref'] / norm_cpm, 2)
+    x['fft_abs_bio_sqrt'] = np.around(x['fft_abs_bio'] / norm_cpm, 2)
 
     # plot frequency signal
     yvals1 = x['Real']
