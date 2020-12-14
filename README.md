@@ -73,7 +73,7 @@ bowtie2-build complete_bacterialRefSeqs_201910_3.fasta complete_bacterialRefSeqs
 cd ..
 ```
 
-## Data cleaning, assembly & sorting
+## Data cleaning, alignment & sorting
 ### Trimmomatic 
 Load your .FASTQ files into the working directory and run Trimmomatic for quality trimming and adapter clipping.
 
@@ -94,7 +94,7 @@ trimmomatic SE \
   SLIDINGWINDOW:4:20 MINLEN:25
 ```
 
-### Reference-based assembly 
+### Alignment 
 ```bash
 # Burrows-Wheeler-Aligner (bwa)
 # see http://bio-bwa.sourceforge.net/
