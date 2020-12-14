@@ -56,7 +56,7 @@ mkdir run_raspir/
 ### Set-up the reference database <br>
 The reference database has to be downloaded and indexed only once. 
 The database contains only complete bacterial genomes with one strain per species.
-Note: You may also use a customised reference database. It is however strongly recommended to avoid draft or low-quality reference genomes and use only complete sequences of circular microorganisms only.
+Note: You may also use a customised reference database. It is however strongly recommended to avoid draft or low-quality reference genomes and use complete sequences of circular microorganisms only.
 
 ```bash
 # Load database into your working directory
