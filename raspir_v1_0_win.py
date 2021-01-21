@@ -4,7 +4,7 @@
 # raspir
 # Author: Marie-Madlen Pust
 # pust.marie-madlen@mh-hannover.de
-# Last updated: 30 Nov 2020
+# Last updated: 21 Jan 2021
 
 
 # Import python modules
@@ -148,6 +148,12 @@ def fourier_trans(x):
         euclidean_dist = round(euclidean_dist_0, 1)
         pearson_standard_error = round(pearson_standard_error0, 5)
         return stripped_name2, pearson_corr_r, pearson_corr_p, pearson_standard_error, euclidean_dist
+    else:
+        pearson_corr_r2 = 0
+        pearson_corr_p2 = 0
+        pearson_standard_error2 = 1
+        euclidean_dist2 = 1
+        return stripped_name2, pearson_corr_r2, pearson_corr_p2, pearson_standard_error2, euclidean_dist2
 
 
 def make_freq_images(x):
