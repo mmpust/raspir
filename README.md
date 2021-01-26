@@ -4,8 +4,8 @@ In shotgun metagenomic sequencing experiments, the total DNA is extracted from c
 
 However, if only a few short DNA reads are detected that are unique to species A, there are at least three explanations: <br>
 a) Sample contamination; <br>
-b) Rare species A was present in the environment of interest. In this case, the reads are expected to spread across the entire reference genome in a fairly uniform manner; or <br>
-c) Rare species B, which acquired genes of species A during past events, was present. In this case, the reads are expected to cluster at specific sides of the reference genome of species A. <br>
+b) Rare species A was present in the environment of interest, so it is a true positive species. In this case, the reads are expected to spread across the entire reference genome in a fairly uniform manner due to random DNA sequencing; or <br>
+c) Rare species A was absent (false positive) but rare species B was present, which acquired genes of species A during past events. In this case, the reads are expected to cluster at specific sides of the reference genome of species A. <br>
 
 The raspir tool calculates a position-domain signal based on the distances of reads aligning to a circular reference genome and converts the information into a frequency signal through Discrete Fourier Transforms (DFT). In addition, a reference frequency signal is constructed with the same number of reads, but with an ideal uniform distribution of reads across the reference genome. Both frequency signals are compared using Pearson's correlation measures. 
 
