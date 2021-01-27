@@ -224,7 +224,7 @@ def final_table(x):
     a = a[['Species', 'r_value', 'p_value', 'stError', 'euclideanR0']]
     a['euclidean'] = np.around((1 / a['euclideanR0']) * 1000, 3)
     a['distribution'] = np.where(
-        (a['p_value'] < set_alpha) & (a['r_value'] > 0.5) & (a['stError'] < set_error) & (a['euclidean'] < 0.6),
+        (a['p_value'] < set_alpha) & (a['r_value'] > 0.5) & (a['stError'] < set_error) & (a['euclidean'] < 0.5),
         'uniform', 'nonuniform')
     b1 = a[['Species', 'r_value', 'p_value', 'stError', 'euclidean', 'distribution']]
     b2 = b1[b1.distribution == 'uniform']
