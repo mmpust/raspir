@@ -4,7 +4,7 @@
 # raspir
 # Author: Marie-Madlen Pust
 # pust.marie-madlen@mh-hannover.de
-# Last updated: 21 Jan 2021
+# Last updated: 27 Jan 2021
 
 
 # Import python modules
@@ -172,14 +172,28 @@ def make_freq_images(x):
     x['fft_abs_bio_sqrt'] = np.around(x['fft_abs_bio'] / norm_cpm, 2)
 
     # plot frequency signal
-    yvals1 = x['Real']
-    yvals2 = x['Reference']
-    x_bio = x['fft_abs_bio_sqrt']
-    x_reference = x['fft_abs_ref_sqrt']
+    val_bio = x['Real']
+    val_ref = x['Reference']
+    x_bio0 = x['fft_abs_bio_sqrt']
+    x_reference0 = x['fft_abs_ref_sqrt']
 
-    freqs_ref = fftpack.fftfreq(len(yvals2))
-    freqs_bio = fftpack.fftfreq(len(yvals1))
+    x_bio1 = x_bio0.sort_values()
+    x_bio2 = pd.concat([x_bio1[::2], x_bio1[len(x_bio1)-2:0:-2]])
+    x_bio = x_bio2.tolist()
+    x_reference1 = x_reference0.sort_values()
+    x_reference2 = pd.concat([x_reference1[::2], x_reference1[len(x_reference1)-2:0:-2]])
+    x_reference = x_reference2.tolist()
+    freqs_bio0 = fftpack.fftfreq(len(val_bio))
+    freqs_bio = sorted(freqs_bio0)
 
+    freqs_ref0 = fftpack.fftfreq(len(val_ref))
+    freqs_ref = sorted(freqs_ref0)
+    a = (len(freqs_ref) - len(x_reference))
+    b = (len(freqs_bio) - len(x_bio))
+    x_reference += [0]*a
+    x_bio += [0]*b
+    x_reference3 = np.sqrt(x_reference)
+    
     sep = '_'
     stripped_name = species_name.split(sep)
     stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
@@ -187,13 +201,12 @@ def make_freq_images(x):
 
     fig, ax1 = plt.subplots(1, 1, figsize=(2.5, 2))
     fig.suptitle(stripped_name2, style='italic', fontsize=4)
-    ax1.plot(freqs_ref, x_reference, "black", linewidth=0.6, linestyle="-", label="Reference")
-    ax1.plot(freqs_bio, x_bio, 'green', linewidth=0.6, linestyle="-", label="Sample")
-    ax1.legend(framealpha=1, loc='upper right', fontsize=4)
-    ax1.fill_between(freqs_ref, x_reference, x_bio, facecolor='#FF0000', alpha=0.5, interpolate=True)
-    fig.text(0.5, 0.025, "Frequency per cycle", ha='center', va='center', fontsize=4)
+    ax1.plot(freqs_ref, x_reference3, "black", linewidth=1, linestyle='--', label="Reference", alpha=0.4)
+    ax1.plot(freqs_bio, x_bio, 'blue', linewidth=1, linestyle='--', label="Sample")
+    ax1.legend(framealpha=1, loc='upper right', fontsize=3)
+    ax1.fill_between(freqs_ref, x_reference3, x_bio, facecolor='pink', alpha=0.2, interpolate=True)
+    fig.text(0.5, 0.025, "Frequency per cycle",  ha='center', va='center', fontsize=4)
     fig.text(0.010, 0.5, "Spectrum", ha='center', va='center', rotation='vertical', fontsize=4)
-    plt.xlim(-0.2, 0.2)
     plt.xticks(fontsize=3)
     plt.yticks(fontsize=3)
     plt.savefig(path_real + '\\' + stripped_name3 + '_freq.png', dpi=600)
