@@ -124,11 +124,14 @@ for items in *.sam
     fname=$(echo ${items} | sed 's/.sam//')
     echo $fname
     
+    # Remove reads with low mapping quality
+    samtools view -hM -q 20 $items > ${items%.sam}.mq20.sam
+
     # Convert file from SAM to BAM format
-    samtools view -h -b -S $items > ${fname}.bam
+    samtools view -h -b -S ${items%.sam}.mq20.sam  > ${fname}.bam
 
     # Discard unmapped sequences
-    samtools view -b -F 4 ${fname}.bam > ${fname}_1.bam
+    samtools view -b -F 4 $items > ${fname}_1.bam
 
     # Sort bam file
     samtools sort ${fname}_1.bam -o ${fname}.sorted.bam
@@ -146,7 +149,7 @@ for items in *.sam
 
     # Add column with genome size
     awk -v FS="\t" -v OFS="\t" 'FNR==NR{a[$1]=$2;next;} {if(a[$1]) {print a[$1], $0} else {print "NA",$0}}' \
-      ${fname}.genomeSize.csv ${fname}.sorted.raspir1.csv > ${fname}.sorted.raspir.csv
+    ${fname}.genomeSize.csv ${fname}.sorted.raspir1.csv > ${fname}.sorted.raspir.csv
 
     # Convert into a comma-separated file
     sed -i 's/\t/,/g' ${fname}.sorted.raspir.csv
