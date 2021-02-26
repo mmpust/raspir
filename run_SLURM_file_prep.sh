@@ -39,17 +39,17 @@ if [ $count != 0 ]
 			echo $fname
 
 
-				# Remove reads with low mapping quality
-				samtools view -hM -q 20 $items > ${items%.sam}.mq20.sam
+			# Remove reads with low mapping quality
+			samtools view -hM -q 20 $items > ${items%.sam}.mq20.sam
 
-				# Convert file from SAM to BAM format
-				samtools view -h -b -S ${items%.sam}.mq20.sam  > ${fname}.bam
+			# Convert file from SAM to BAM format
+			samtools view -h -b -S ${items%.sam}.mq20.sam  > ${fname}.bam
 
-				# Discard unmapped sequences @Marie are these not removed by the mq20 filter, I think so ?
-				samtools view -b -F 4 $items > ${fname}_1.bam
+			# Discard unmapped sequences @Marie are these not removed by the mq20 filter, I think so ?
+			samtools view -b -F 4 $items > ${fname}_1.bam
 
-				# Sort bam file
-				samtools sort @ $cpus -${fname}_1.bam -o ${fname}.sorted.bam
+			# Sort bam file
+			samtools sort @ $cpus -${fname}_1.bam -o ${fname}.sorted.bam
 		done
 fi
 
