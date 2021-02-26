@@ -16,7 +16,7 @@
 # set name of job
 #SBATCH --job-name=raspir_prepare
 
-# Add miniconda3 to PATH
+# Add miniconda3 to PATH. TODO - autodetection
 . /mnt/ngsnfs/tools/miniconda3/etc/profile.d/conda.sh
 
 # Activate env on cluster node
@@ -61,17 +61,14 @@ for items in *.bam
 		echo $fname
 
    		# Obtain coverage information
-   		#samtools depth ${fname}.sorted.bam > ${fname}.sorted.raspir1.csv
    		samtools depth ${fname}.bam | grep -v $human_chr_pattern  > ${fname}.raspir1.csv
 
-   		# Add genome size
-		   ### COLIN TODO - items here is for SAM format , sed fails on bam
+   		# Add genome size, pipe in a BAM header only
    		samtools view -H ${items} | sed 's/LN://g' > ${fname}.genomeSize_1.csv
    		sed -i 's/SN://g' ${fname}.genomeSize_1.csv
    		cut -f2- ${fname}.genomeSize_1.csv > ${fname}.genomeSize.csv
 
    		# Add column with genome size
-   		#awk -v FS="\t" -v OFS="\t" 'FNR==NR{a[$1]=$2;next;} {if(a[$1]) {print a[$1], $0} else {print "NA",$0}}' ${fname}.genomeSize.csv ${fname}.raspir1.csv > ${fname}.raspir.csv
 		awk -v FS="\t" -v OFS="\t" 'FNR==NR{a[$1]=$2;next;} {if(a[$1]) {print a[$1], $0} else {print "NA",$0}}' \
 		${fname}.genomeSize.csv ${fname}.raspir1.csv > ${fname}.raspir.csv
 
