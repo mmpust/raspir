@@ -1,8 +1,9 @@
 #!/bin/bash
 
 ## Marie-Madlen Pust
-## Last updated: 27 January 2021
-## pust.marie-madlen@mh-hannover.de   ### Remove this to avoid this being scraped for SPAM -- contact via github is better !
+## Update I: 27 January 2021 (MMP)
+## Update II: 26 Februrary 2021 (Colin Davenport)
+## Update III: 28 February 2021 (MMP)
 
 # set partition
 #SBATCH -p normal
