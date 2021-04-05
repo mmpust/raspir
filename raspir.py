@@ -11,9 +11,6 @@ from __future__ import print_function
 ## batteries
 import os
 import sys
-import re
-import gzip
-import bz2
 import argparse
 import logging
 import itertools
