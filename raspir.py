@@ -6,33 +6,73 @@
 # pust.marie-madlen@mh-hannover.de
 # Last updated: 21 Jan 2021
 
-
-# Import python modules
+# import
+from __future__ import print_function
+## batteries
 import os
+import sys
+import argparse
+import logging
+import itertools
+import random
+from itertools import count, takewhile
+## 3rd party
 import pandas as pd
 import numpy as np
-import itertools
-from itertools import count, takewhile
 import matplotlib
 import matplotlib.pyplot as plt
 from scipy import fftpack, stats
 from scipy.stats import linregress
-import random
 
+# matplotlib init
 matplotlib.use('Agg')
 
+# logging
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.DEBUG)
+logging.getLogger('matplotlib.font_manager').disabled = True
 
-# Set parameters
-set_error = 0.01
-set_alpha = 0.05
+# argparse# 
+class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter,
+                      argparse.RawDescriptionHelpFormatter):
+    pass
+
+desc = 'raspir: rare species identifier'
+epi = """DESCRIPTION:
+Input: csv file (see raspir repo README)
+Output: 
+* $PREFIX_[organism]_freq.png
+  * graph: spectrum ~ frequence_per_cycle
+* $PREFIX_final_stats.csv
+  * csv table of final results (see raspir repo README)
+"""
+parser = argparse.ArgumentParser(description=desc, epilog=epi,
+                                 formatter_class=CustomFormatter)
+argparse.ArgumentDefaultsHelpFormatter
+parser.add_argument('csv_file', metavar='csv_file', type=str,
+                    help='Input csv file')
+parser.add_argument('out_prefix', metavar='out_prefix', type=str,
+                    help='output file prefix')
+parser.add_argument('-e', '--error', type=float, default=0.01,
+                    help='std-error cutoff parameter')
+parser.add_argument('-a', '--alpha', type=float, default=0.05,
+                    help='alpha parameter')
+parser.add_argument('--version', action='version', version='0.0.1')
+
+
+# Global parameters
 norm_cpm = 1000000
 
-# Define range of the reference's read distance
+# functions
 def frange(start, stop, step):
+    """
+    Define range of the reference's read distance
+    """
     return takewhile(lambda x: x < stop, count(start, step))
 
-
-def read_count(x):
+def read_count(x, min_reads=4):
+    """
+    Read count table
+    """
     items_diff = [abs(j - i) for i, j in zip(x['Position'], x['Position'][1:])]
     a = [0]
     items_diff = a + items_diff
@@ -42,17 +82,19 @@ def read_count(x):
     x = x.drop_duplicates(subset='readCount', keep='first')
     x = x.drop(['items_diff', 'gap'], 1)
     
-    # remove all Organisms with less than 4 reads
+    # remove all Organisms with less than `min_read` reads
     x['indexNames'] = x['readCount'].sum()
-    store_index = x[x['indexNames'] < int(4)].index
+    store_index = x[x['indexNames'] < int(min_reads)].index
     x.drop(store_index, inplace=True)
     return x
-
-
-# Normalise position (circular genome)
+ 
 def normalise_genome_position(x):
+    """
+    Normalise position (circular genome)
+    """
     x['PositionNorm0'] = np.where(x['Position'] > (x['GenomeLength'] / 2),
-                                  (x['GenomeLength'] - x['Position']), x['Position'])
+                                  (x['GenomeLength'] - x['Position']),
+                                  x['Position'])
     x['PositionNorm'] = x['PositionNorm0']**(1/2)
     
     # Reference position
@@ -61,16 +103,20 @@ def normalise_genome_position(x):
     end_position_ref = x['GenomeLength'].iloc[0]
     end_position_ref = end_position_ref + n_reads
     increase_by = (end_position_ref / n_reads)
-    x['ref_Position'] = list(frange(start_position_ref, end_position_ref, increase_by))
+    x['ref_Position'] = list(frange(start_position_ref, end_position_ref,
+                                    increase_by))
     x['ref_Position'] = x['ref_Position'].astype(int)
-    x['PositionNorm_ref0'] = np.where(
-        x['ref_Position'] > (x['GenomeLength'] / 2), (x['GenomeLength'] - x['ref_Position']), x['ref_Position'])
+    x['PositionNorm_ref0'] = np.where(x['ref_Position'] > (x['GenomeLength'] / 2),
+                                      (x['GenomeLength'] - x['ref_Position']),
+                                      x['ref_Position'])
     x['PositionNorm_ref'] = x['PositionNorm_ref0'].astype(int)
     return x
 
 
-# Time domain signal
 def make_time_domain(x):
+    """
+    Time domain signal
+    """
     # check if read count of organism matches with minimum requirement
     mean_depth = int(x['Depth'].mean())
     n_reads = int(x['readCount'].max())
@@ -136,7 +182,7 @@ def fourier_trans(x):
     x['fft_abs_bio'] = np.abs(x['fft_bio'])
     x['fft_abs_ref_sqrt'] = np.around(x['fft_abs_ref'] / norm_cpm, 2)
     x['fft_abs_bio_sqrt'] = np.around(x['fft_abs_bio'] / norm_cpm, 2)
-
+    
     # Pearson correlation
     if (sum(x['fft_abs_ref_sqrt']) > 0) & (sum(x['fft_abs_bio_sqrt']) > 0):
         pearson_corr = linregress(x['fft_abs_ref_sqrt'], x['fft_abs_bio_sqrt'])
@@ -157,6 +203,7 @@ def fourier_trans(x):
 
 
 def make_freq_images(x):
+    logging.basicConfig(level=logging.ERROR)
     species_name = x['Organism'].iloc[0]
     path_real = x['PathName'].iloc[0]
 
@@ -208,11 +255,16 @@ def make_freq_images(x):
     fig.text(0.010, 0.5, "Spectrum", ha='center', va='center', rotation='vertical', fontsize=4)
     plt.xticks(fontsize=3)
     plt.yticks(fontsize=3)
-    plt.savefig(path_real + '/' + stripped_name3 + '_freq.png', dpi=600)
+    outfile = '_'.join([path_real, stripped_name3, 'freq.png'])
+    plt.savefig(outfile, dpi=600)
+    logging.basicConfig(level=logging.DEBUG)
+    logging.info('  File written: {}'.format(outfile))
     plt.close()
 
-
-def final_table(x):
+def final_table(x, set_error, set_alpha):
+    """
+    Create file data table
+    """
     a0 = pd.DataFrame(x, columns=['Pearson'])
     a = a0.dropna(axis=0, how='all')
     a = a[['Species', 'r_value', 'p_value', 'stError', 'euclideanR0']] = pd.DataFrame(a['Pearson'].tolist())
@@ -228,67 +280,67 @@ def final_table(x):
     b1 = a[['Species', 'r_value', 'p_value', 'stError', 'euclidean', 'distribution']]
     b2 = b1[b1.distribution == 'uniform']
     return b2
+    
 
+def process_csv(file_name, out_prefix, args):    
+    with open(file_name, newline='') as inF:
+        df = pd.read_csv(inF, delimiter=',')
 
-def main():
-    path_name = os.getcwd()
-    file_names = os.listdir(path_name)
+        # filtering human reads
+        pattern_del = '1_1_1_'
+        filter_approach = df['Organism'].str.contains(pattern_del, na=False)
+        df = df[~filter_approach]
+        logging.info('1) Human reads have been removed')
 
-    for all_names in file_names:
-        files_to_process = []
-        if all_names.endswith(".raspir.csv"):
-            files_to_process.append(all_names)
+        # counting reads per organism
+        df = df.dropna(subset=['GenomeLength'])
+        df_filter1 = df.groupby('Organism').apply(read_count)
+        logging.info('2) Continue with the first position of each read')
 
-            for items in files_to_process:
-                file_name = str(items)
-                print(file_name)
+        if df_filter1.empty is True:
+            logging.warning('Note: Dataset is empty')
+            outfile = '{}_filtered.csv'.format(out_prefix)
+            df_filter1.to_csv(outfile, index=False)
+            logging.info('  File written: {}'.format(outfile))
+            return None
+        else:
+            df_filter = df_filter1.reset_index(drop=True)
+            df_filter2 = df_filter.groupby('Organism').apply(normalise_genome_position)
+            logging.info('3) Genome position normalised')
 
-                # make directory
-                new_directory_name_real = file_name[:-4]
-                current_directory = os.getcwd()
-                path_real = os.path.join(current_directory, new_directory_name_real)
-                os.mkdir(path_real)
-                store_path = path_real
-                print("Directory '% s' was created" % new_directory_name_real)
+            position_domain0 = df_filter2.reset_index(drop=True)
+            position_domain = position_domain0.groupby("Organism").apply(make_time_domain)
+            logging.info('4) Time-domain signal built')
 
-                with open(items, newline='') as dataset:
-                    df = pd.read_csv(dataset, delimiter=',')
-                    pattern_del = "1_1_1_"
-                    filter_approach = df['Organism'].str.contains(pattern_del, na=False)
-                    df = df[~filter_approach]
-                    print("1 Human reads have been removed.")
+            frequency_domain0 = position_domain.reset_index(drop=True)
+            frequency_domain0['PathName'] = os.path.join(out_prefix)
+            frequency_domain = frequency_domain0.groupby('Organism').apply(fourier_trans)
+            logging.info('5) Frequency-domain signal generated')
 
-                    df = df.dropna(subset=['GenomeLength'])
-                    df_filter1 = df.groupby('Organism').apply(read_count)
-                    print("2 Continues with the first position of each read.")
-                    
-                    if df_filter1.empty is True:
-                        df_filter1.to_csv('output' + file_name, index=False)
-                        print("Note: Dataset is empty")
-                        continue
-                    else:
-                        df_filter = df_filter1.reset_index(drop=True)
-                        df_filter2 = df_filter.groupby('Organism').apply(normalise_genome_position)
-                        print("3 Genome position has been normalised.")
+            frequency_domain0.groupby('Organism').apply(make_freq_images)
+            logging.info('6) Frequency plots produced')
 
-                        position_domain0 = df_filter2.reset_index(drop=True)
-                        position_domain = position_domain0.groupby("Organism").apply(make_time_domain)
-                        print("4 Time-domain signal was built.")
+            stat_table = final_table(frequency_domain,
+                                     set_error=args.error,
+                                     set_alpha=args.alpha)
+            logging.info('7) Output table has been generated')
 
-                        frequency_domain0 = position_domain.reset_index(drop=True)
-                        frequency_domain0['PathName'] = store_path
-                        frequency_domain = frequency_domain0.groupby('Organism').apply(fourier_trans)
-                        print("5 Frequency-domain signal was generated.")
+            outfile = '{}_final_stats.csv'.format(out_prefix)
+            stat_table.to_csv(outfile, index=False)
+            logging.info('  File written: {}'.format(outfile))
+            logging.info('8) Run successful')
 
-                        frequency_domain0.groupby('Organism').apply(make_freq_images)
-                        print("6 Frequency plots have been produced.")
-
-                        stat_table = final_table(frequency_domain)
-                        print("7 Output table has been generated.")
-                        
-                        stat_table.to_csv(path_real + '/' + 'final_stats.' + file_name, index=False)
-                        print('8 Run was successful.')
-
-
+def main(args):
+    """
+    Main interface
+    """
+    # output directory
+    outdir = os.path.split(args.out_prefix)[0]
+    if outdir != '' and not os.path.isdir(outdir):
+        os.makedirs(args.outdir)
+    # processing each file
+    process_csv(args.csv_file, out_prefix=args.out_prefix, args=args)
+    
 if __name__ == "__main__":
-    main()
+    args = parser.parse_args()
+    main(args)
