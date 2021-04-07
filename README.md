@@ -182,6 +182,12 @@ A table is generated (.CSV format). The assignment output has 6 columns.
 | Streptococcus salivarius | 0.97 | 0.0 | 0.00016 | 0.002 | uniform |
 | Rothia mucilaginosa | 0.99 | 0.0 | 0.000002 | 0.0001 | uniform | 
 
+
+# Contributors
+@mmpust author
+@colindaven updates
+@nick-youngblut updates 
+
 # References
 [1] Bolger, A. M., Lohse, M., & Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170. <br>
 [2] Li H., Handsaker B., Wysoker A. et al. (2009) The Sequence alignment/map (SAM) format and SAMtools. Bioinformatics, 25, 2078-9. <br>
