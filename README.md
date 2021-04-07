@@ -163,14 +163,9 @@ for items in *.sam
 
 # Run raspir
 Download the python script into the run_raspir/ folder.
-If you have multiple input .CSV files in your directory, the script will automatically create a list of input files and iterate over the list.
 
 ```python
-# Linux
-python3 raspir_v1_0_unix.py
-
-# Windows
-python3 raspir_v1_0_win.py
+python raspir.py input.csv output_prefix 
 ```
 
 # Output
