@@ -2,9 +2,8 @@
 # coding: utf-8
 
 # raspir
-# Author: Marie-Madlen Pust
-# pust.marie-madlen@mh-hannover.de
-# Last updated: 21 Jan 2021
+# Contact details: pust.marie-madlen@mh-hannover.de
+# Last updated: 07 April 2021
 
 # import
 from __future__ import print_function
