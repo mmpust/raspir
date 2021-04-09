@@ -79,5 +79,5 @@ for items in *.bam
 		sed -i '1iGenomeLength,Organism,Position,Depth\' ${fname}.raspir.csv
 
 		# Remove intermediate files
-		#rm ${fname}.raspir1.csv ${fname}.genomeSize_1.csv ${fname}.genomeSize.csv
+		rm ${fname}.raspir1.csv ${fname}.genomeSize_1.csv ${fname}.genomeSize.csv
 	done
