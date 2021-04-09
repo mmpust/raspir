@@ -163,14 +163,9 @@ for items in *.sam
 
 # Run raspir
 Download the python script into the run_raspir/ folder.
-If you have multiple input .CSV files in your directory, the script will automatically create a list of input files and iterate over the list.
 
 ```python
-# Linux
-python3 raspir_v1_0_unix.py
-
-# Windows
-python3 raspir_v1_0_win.py
+python raspir.py input.csv output_prefix 
 ```
 
 # Output
@@ -181,6 +176,12 @@ A table is generated (.CSV format). The assignment output has 6 columns.
 | Pseudomonas aeruginosa | 0.99 | 0.0 | 0.00019 | 0.01 | uniform |
 | Streptococcus salivarius | 0.97 | 0.0 | 0.00016 | 0.002 | uniform |
 | Rothia mucilaginosa | 0.99 | 0.0 | 0.000002 | 0.0001 | uniform | 
+
+
+# Contributors
+@mmpust author
+@colindaven updates
+@nick-youngblut updates 
 
 # References
 [1] Bolger, A. M., Lohse, M., & Usadel, B. (2014). Trimmomatic: A flexible trimmer for Illumina Sequence Data. Bioinformatics, btu170. <br>
