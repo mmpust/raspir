@@ -117,6 +117,8 @@ bowtie2 -x $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_3 \
 
 ### Sorting, indexing & final clean-up
 
+This process can be performed on SAMs or BAMs with the included script run_SLURM_file_prep.sh
+
 ```bash
 for items in *.sam
   do
