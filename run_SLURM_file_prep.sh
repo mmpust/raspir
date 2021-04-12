@@ -4,6 +4,7 @@
 ## Update I: 27 January 2021 (MMP)
 ## Update II: 26 Februrary 2021 (Colin Davenport)
 ## Update III: 28 February 2021 (MMP)
+## Update IV: 12 April 2021 (Colin Davenport)
 
 # set partition
 #SBATCH -p normal
