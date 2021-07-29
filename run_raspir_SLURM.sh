@@ -13,7 +13,7 @@
 #SBATCH --cpus-per-task 8
 
 # set name of job
-#SBATCH --job-name=raspir_prepare
+#SBATCH --job-name=raspir_run
 
 # Add miniconda3 to PATH. TODO - autodetection
 . /mnt/ngsnfs/tools/miniconda3/etc/profile.d/conda.sh
