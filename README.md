@@ -148,7 +148,7 @@ if [ $count != 0 ]
 			# Convert file from SAM to BAM format
 			samtools view -h -b -S ${items%.sam}.mq20.sam  > ${fname}.bam
 
-			# Discard unmapped sequences @Marie are these not removed by the mq20 filter, I think so ?
+			# Discard unmapped sequences 
 			samtools view -b -F 4 $items > ${fname}_1.bam
 
 			# Sort bam file
