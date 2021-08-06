@@ -21,7 +21,7 @@ cp combine_raspir_wochenende.sh multi_to_single_file.sh runbatch_combine_raspir_
 
 # prepare input files for raspir run from Wochenende bam files:
 cd run_raspir/
-sbatch raspir_prepare?????????
+sbatch prepare_file_for_raspir.sh # insert your conda environment at the top of the script
 
 # run raspir on .CSV files
 sbatch runbatch_raspir_wochenende_SLURM.sh
