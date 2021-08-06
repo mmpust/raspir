@@ -7,9 +7,10 @@ For more information on Wochenende, see https://github.com/MHH-RCUG/Wochenende <
 ## Workflow 
 Step 1. After running Wochenende (+ report), download the scripts
 ```bash
-git clone .
-cp *.rep.us.* raspir_with_wochenende/ # copy unsorted Wochenende reporting files to the new directory
-cp *.ndp.trm.s.mm.dup.mq30.bam raspir_with_wochenende/ # copy .BAM files for use with raspir 
+git clone https://github.com/mmpust/raspir.git
+cp *.ndp.trm.s.mm.dup.mq30.calmd.bam.txt.rep.us.csv raspir/raspir_with_wochenende/   # copy unsorted Wochenende reporting files to the new directory
+cp *.ndp.trm.s.mm.dup.mq30.bam raspir/raspir_with_wochenende/   # copy .BAM files for use with raspir 
+cd raspir/raspir_with_wochenende/
 ```
 
 Step 2. Prepare input files for raspir run from Wochenende files (.BAM):
