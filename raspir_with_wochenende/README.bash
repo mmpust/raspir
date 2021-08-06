@@ -3,15 +3,16 @@
 # For more information on Wochenende, see https://github.com/MHH-RCUG/Wochenende
 
 # Step 1.
-# Create the following two new directories directly in the file that stores your Wochenende output
+# run Wochenende and Wochenende report
+# write the following new directories directly to the Wochenende output
 mkdir run_raspir/ 
 mkdir raspir_wochenende/
 
-cp *.us.rp.csv raspir_wochenende/ # copy the unsorted Wochenende reporting files to the new directory
-cp *.bam run_raspir/ # copy .BAM files for use with raspir to the raspir directory 
+cp *.us.rp.csv raspir_wochenende/ # copy unsorted Wochenende reporting files to the new directory
+cp *.bam run_raspir/ # copy .BAM files for use with raspir 
 
 # Step 2.
-# Download the scripts
+# download the scripts
 git clone .
 cp raspir_with_wochenende/*.sh .
 cp raspir_with_wochenende/*.py .
