@@ -40,12 +40,10 @@ class CustomFormatter(argparse.ArgumentDefaultsHelpFormatter,
 
 desc = 'raspir: rare species identifier'
 epi = """DESCRIPTION:
-Input
-File (.CSV format, see raspir repo README)
 
 Output:
-1. Graph of spectrum vs frequency per cycle ( $PREFIX_[organism]_freq.png )
-2. Table (.CSV format) of final results (see raspir repo README) ( $PREFIX_final_stats.csv )
+	1. Optional, graph of spectrum vs frequency per cycle ( $PREFIX_[organism]_freq.png )
+	2. Table (.CSV format) of final results (see raspir repo README) ( $PREFIX_final_stats.csv )
 """
 parser = argparse.ArgumentParser(description=desc, epilog=epi,
                                  formatter_class=CustomFormatter)
