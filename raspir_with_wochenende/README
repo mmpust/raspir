@@ -8,7 +8,7 @@
 mkdir run_raspir/ 
 mkdir raspir_wochenende/
 
-cp *.us.rp.csv raspir_wochenende/ # copy unsorted Wochenende reporting files to the new directory
+cp *.rep.us.* raspir_wochenende/ # copy unsorted Wochenende reporting files to the new directory
 cp *.bam run_raspir/ # copy .BAM files for use with raspir 
 
 # Step 2.
@@ -38,4 +38,4 @@ sbatch runbatch_combine_raspir_wochenende_SLURM.sh
 sbatch multi_to_single_SLURM.sh
 
 # rewrite id labels, add taxonomy information
-python add_taxonomy.py 
+python add_taxonomy.py wochenende.rep.us.raspir.merged.csv
