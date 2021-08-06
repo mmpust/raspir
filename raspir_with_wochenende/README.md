@@ -1,6 +1,6 @@
 
 # README <br><br>
-Combine the output of the shotgun metagenomic sequencing alignment pipeline (Wochenende) with raspir <br>
+Combine the shotgun metagenomic sequencing alignment pipeline (Wochenende) with raspir <br>
 For more information on Wochenende, see https://github.com/MHH-RCUG/Wochenende <br><br>
 
 
