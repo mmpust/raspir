@@ -21,4 +21,10 @@
 # Activate env on cluster node
 conda activate raspir_env >> /dev/null
 
-for items in *.csv; do python raspir.py $items ${items%.csv}; done
+for i in `ls *.csv`
+
+        do
+                echo $i
+                python raspir.py $i ${i%.csv}; done
+
+done
