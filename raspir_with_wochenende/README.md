@@ -9,7 +9,7 @@ Step 1. After running Wochenende (+ report), download the scripts
 ```bash
 git clone .
 cp *.rep.us.* raspir_with_wochenende/ # copy unsorted Wochenende reporting files to the new directory
-cp *.bam raspir_with_wochenende/ # copy .BAM files for use with raspir 
+cp *.ndp.trm.s.mm.dup.mq30.bam raspir_with_wochenende/ # copy .BAM files for use with raspir 
 ```
 
 Step 2. Prepare input files for raspir run from Wochenende files (.BAM):
