@@ -62,7 +62,7 @@ Note: You may also use a customised reference database. It is however strongly r
 # Load database into your working directory
 cd reference_database/
 # Get database from
-https://sync.academiccloud.de/index.php/s/wSFAaUpfkjY4fZG/download
+https://sync.academiccloud.de/index.php/s/DcKLpKtoKMHKvcn/download
 # Unzip the reference database 
 gunzip complete_bacterialRefSeqs_201910_3.fasta
 
