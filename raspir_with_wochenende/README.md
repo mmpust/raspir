@@ -40,5 +40,6 @@ sbatch multi_to_single.sh
 
 Step 6. Rewrite id labels, add taxonomy information
 ```bash
-python add_taxonomy.py wochenende.rep.us.raspir.merged.csv
+python add_taxonomy.py wochenende.rep.us.raspir.merged.csv wochenende.rep.us.raspir.merged
 ```
+Note: If the output file has missing taxonomy data, please contact me and provide the complete taxonomy details (domain, phylum, class, order, family, genus, and species) of the species you would like to have added. 
