@@ -41,5 +41,13 @@ Step 6. Rewrite id labels, add taxonomy information
 ```bash
 python add_taxonomy.py wochenende.rep.us.raspir.merged.csv wochenende.rep.us.raspir.merged
 ```
-Note: If the output file has missing taxonomy data, please contact me and provide the complete taxonomy details (domain, phylum, class, order, family, genus, and species) of the species you would like to have added. 
+
+A table is generated (.CSV format). The assignment output has 7 taxonomy-specific columns. <br>
+
+Domain | Phylum  | Class  | Order | Family | Genus | Species | Sample_1 | Sample_2 
+---   | --- | --- | --- | --- | ---  | --- | --- | ---
+Bacteria | Actinobacteria | Actinobacteria | Bifidobacteriales | Bifidobacteriaceae | Bifidobacterium | Bifidobacterium bifidum | 2.01 | 0.00
+Bacteria | Proteobacteria | Gammaproteobacteria | Pasteurellales | Pasteurellaceae | Haemophilus | Haemophilus parainfluenzae | 40.1 | 52.3
+
+<br>Note: If the output file has missing taxonomy data, please contact me and provide the complete taxonomy details (domain, phylum, class, order, family, genus, and species) of the species you would like to have added. 
 
