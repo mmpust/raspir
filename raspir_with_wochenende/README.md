@@ -4,7 +4,7 @@ For more information on Wochenende, see https://github.com/MHH-RCUG/Wochenende <
 
 
 ## Workflow 
-Step 1. After running Wochenende (+ report), download the scripts for running raspir and combining Wochenende and raspir outputs
+Step 1. After running Wochenende (+ report), download the scripts for running raspir and for combining Wochenende and raspir outputs
 ```bash
 git clone https://github.com/mmpust/raspir.git
 
