@@ -31,8 +31,8 @@ Step 4. Combine raspir and wochenende output
 ```bash
 sbatch runbatch_combine_raspir_wochenende_SLURM.sh   # adjust your conda environment at the top of the script
 
-# Note: By default, the script will extract the normalised read counts (bacterial cell to human cell ratio). If you want the raw data 
-# If you want the raw data, open the script and change column information:
+# Note: By default, the script will extract the normalised read counts (bacterial cell to human cell ratio). 
+# If you want the raw read counts, open the script and change the column information:
 nano combine_raspir_wochenende.sh
 # go to line 36, change argument $8 to $3
 # original file
