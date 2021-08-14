@@ -33,8 +33,14 @@ sbatch runbatch_combine_raspir_wochenende_SLURM.sh   # adjust your conda environ
 
 # Note: By default, the script will extract the normalised read counts (bacterial cell to human cell ratio). If you want the raw data 
 # If you want the raw data, open the script and change column information:
-nano 
-# go to line 34, change argument $8 to $3
+nano combine_raspir_wochenende.sh
+# go to line 36, change argument $8 to $3
+# original file
+awk -F',' '{print $1","$8}' ${input_file_wochenende_short}.temp_1.csv > ${input_file_wochenende_short}.temp_2.csv
+# new file
+awk -F',' '{print $1","$3}' ${input_file_wochenende_short}.temp_1.csv > ${input_file_wochenende_short}.temp_2.csv
+# run file
+sbatch runbatch_combine_raspir_wochenende_SLURM.sh 
 ```
 
 Step 5. Merge multiple files
