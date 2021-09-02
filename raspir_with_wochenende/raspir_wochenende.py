@@ -332,7 +332,7 @@ def process_csv(file_name, out_prefix, args):
                                      set_alpha=args.set_alpha)
             logging.info('7) Output table has been generated')
 
-            outfile = '{}_final_stats.csv'.format(out_prefix)
+            outfile = '{}.final_stats.csv'.format(out_prefix)
             stat_table.to_csv(outfile, index=False)
             logging.info('  File written: {}'.format(outfile))
             logging.info('8) Run successful')
