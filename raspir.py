@@ -58,7 +58,7 @@ parser.add_argument('-e', '--set_error', type=float, default=0.01,
                     help='std-error cutoff parameter')
 parser.add_argument('-a', '--set_alpha', type=float, default=0.05,
                     help='alpha parameter')
-parser.add_argument('--version', action='version', version='0.0.2')
+parser.add_argument('--version', action='version', version='1.0.2')
 
 
 # Global parameters
