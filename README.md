@@ -203,6 +203,11 @@ A table is generated (.CSV format). The assignment output has 6 columns.
 | Rothia mucilaginosa | 0.99 | 0.0 | 0.000002 | 0.0001 | uniform | 
 
 
+The output file summarises the statistics of comparing an ideal reference distribution of reads across the genome with the real biological situation. The columns are species name, the Pearson's correlation coefficient r, the correlation p-value, the standard error, and the euclidean distance between reference and biological spectral signals.
+
+Read patterns are classified as uniform if the reference and biological signals exhibit strong Pearson’s correlations (Correlation coefficient > 0.6, p-value < 0.05, standard error of estimates < 0.01) and low Euclidean dissimilarity indices (EDI < 0.5). This is also explained in the paper. In the current version, only species are listed with uniform distribution of reads compared to their reference signal. 
+
+
 # Contributors
 @mmpust author
 @colindaven updates
