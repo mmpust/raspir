@@ -22,6 +22,13 @@ See the following section for further information on how to convert .FASTQ files
 conda create --name raspir_env
 conda activate raspir_env
 
+# As combined commands: 
+conda install -c bioconda trimmomatic samtools bwa pandas
+conda install -c conda-forge statsmodels matplotlib -y
+python3 -m pip install pandas
+
+# In detail (also includes bowtie2):
+
 # Install trimmomatic [1] 
 conda install -c bioconda trimmomatic
 # Install samtools [2] 
@@ -35,8 +42,7 @@ conda install -c bioconda/label/cf201901 bowtie2
 
 # Install python packages for raspir
 conda install pandas
-conda install -c conda-forge statsmodels
-conda install -c conda-forge matplotlib
+conda install -c conda-forge statsmodels matplotlib -y
 ```
 
 
