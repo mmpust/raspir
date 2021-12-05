@@ -23,11 +23,7 @@ conda create --name raspir_env
 conda activate raspir_env
 
 # As combined commands: 
-conda install -c bioconda trimmomatic samtools bwa pandas
-conda install -c conda-forge statsmodels matplotlib -y
-python3 -m pip install pandas
-
-# In detail (also includes bowtie2):
+conda install -c bioconda trimmomatic samtools bwa 
 
 # Install trimmomatic [1] 
 conda install -c bioconda trimmomatic
