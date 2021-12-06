@@ -22,7 +22,7 @@
 conda activate raspir_env >> /dev/null
 
 input_csv=$1
-output_prefix=${input_csv%.ndp.%}
+output_prefix=${input_csv%.ndp.*}
 
 echo $input_csv
 echo $output_prefix
