@@ -11,7 +11,7 @@ git clone https://github.com/mmpust/raspir.git
 # copy unsorted Wochenende reporting files to the new directory
 cp *.ndp.trm.s.mm.dup.mq30.calmd.bam.txt.rep.us.csv raspir/raspir_with_wochenende/   
 # copy .BAM files for use with raspir 
-cp *.ndp.trm.s.mm.dup.mq30.bam raspir/raspir_with_wochenende/   
+cp *.ndp.trm.s.mm.dup.mq30.calmd.bam raspir/raspir_with_wochenende/   
 
 # go to directory
 cd raspir/raspir_with_wochenende/
