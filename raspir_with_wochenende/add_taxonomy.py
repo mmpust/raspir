@@ -1,7 +1,8 @@
 #!/bin/python
 
 # Marie-Madlen Pust
-# last updated: 05 August 2021
+# last updated: 06 December 2021
+# version 1.1.0
 
 import os
 import argparse
@@ -23,10 +24,8 @@ parser = argparse.ArgumentParser(description=desc, epilog=epi,
                                  formatter_class=CustomFormatter)
 
 
-parser.add_argument('csv_file', metavar='csv_file', type=str,
-                    help='Input csv file')
-parser.add_argument('out_prefix', metavar='out_prefix', type=str,
-                    help='output file prefix')
+parser.add_argument('csv_file', metavar='csv_file', type=str, help='Input csv file')
+parser.add_argument('out_prefix', metavar='out_prefix', type=str, help='output file prefix')
 
 
 def move_column_inplace(df, col, pos):
@@ -82,60 +81,58 @@ def process_csv(file_name, out_prefix):
         id_values_2 = []
         for p in id_values_1:
             if p.startswith("_"):
-                new_string = p.split("_", 4)[:4]
+                new_string = p.split("_")[1] + "," + p.split("_")[3]
                 id_values_2.append(new_string)
-            elif p.startswith("__"):
-                new_string = p.split("_", 5)[:4]
-                id_values_2.append(new_string)
-            elif p.startswith("___"):
-                new_string = p.split("_", 6)[:4]
-                id_values_2.append(new_string)
-            elif p.startswith("____"):
-                new_string = p.split("_", 7)[:4]
-                id_values_2.append(new_string)
+            elif "organism" in p:
+                new_string_4 = p.split("organism_")[1]
+                new_string_5 = new_string_4.split("_")[:2]
+                id_values_2.append(new_string_5)
             else:
-                new_string = p.split("_", 3)[:2]
-                id_values_2.append(new_string)
+                new_string = p.split("_")
+                if new_string[0] == "1":
+                    new_string_8 = new_string[3] + "," + new_string[4]
+                    id_values_2.append(new_string_8)
+                else:
+                    new_string_10 = new_string[:2]
+                    new_string_11 = str(new_string_10)[1:-1]
+                    new_string_12 = new_string_11.replace(" ", "")
+                    id_values_2.append(new_string_12)
 
         id_values_3 = []
         for i in id_values_2:
-            i2 = ' '.join(i)
-            id_values_3.append(i2)
+            i2 = ''.join(i)
+            i3 = i2.replace("'", "")
+            id_values_3.append(i3)
 
         csv_df = csv_df.iloc[:, 1:]
-        csv_df.insert(0, 'Species', id_values_3)
-        csv_df.groupby(by=csv_df.columns, axis=1).sum()
+        csv_df.insert(0, 'Species_merged', id_values_3)
 
+        csv_df.groupby(by=csv_df.columns, axis=1).sum()
         # remove all rows that sum to zero
-        cols_to_sum = csv_df.columns[: csv_df.shape[1]-1]
+        cols_to_sum = csv_df.columns[: csv_df.shape[1] - 1]
         csv_df['sum_all'] = csv_df[cols_to_sum].sum(axis=1)
         csv_df = csv_df[csv_df.sum_all != 0]
         csv_df = csv_df.drop('sum_all', 1)
+        csv_df = csv_df.groupby(['Species_merged']).sum()
+        csv_df = csv_df.round(5)
 
         # grep taxonomy file
         tax_df = pd.read_csv(tax_list, sep=";")
         tax_df = tax_df.astype(str)
-        tax_df['Species_new'] = tax_df[['Genus', 'Species']].apply(lambda x: ' '.join(x), axis=1)
+        tax_df['Species_merged'] = tax_df[['Genus', 'Species']].apply(lambda x: ','.join(x), axis=1)
         tax_df = tax_df.drop('Species', 1)
+        tax_df.drop(tax_df.index[tax_df['Family'] == "Human"], inplace=True)
+        tax_df.drop(tax_df.index[tax_df['Species_merged'] == "nan,nan"], inplace=True)
 
         # subset taxonomy file based on samples in csv_df
-        tax_df_sub_0 = tax_df[tax_df.set_index(['Species_new']).index.isin(csv_df.set_index(['Species']).index)]
-        csv_tax_df_0 = csv_df.merge(tax_df_sub_0, how='left', left_on='Species', right_on='Species_new',)
-        csv_tax_df_1 = csv_tax_df_0.drop('Species_new', 1)
-
-        # move columns
-        csv_tax_df_2 = move_column_inplace(csv_tax_df_1, 'Domain', 0)
-        csv_tax_df_3 = move_column_inplace(csv_tax_df_2, 'Phylum', 1)
-        csv_tax_df_4 = move_column_inplace(csv_tax_df_3, 'Class', 2)
-        csv_tax_df_5 = move_column_inplace(csv_tax_df_4, 'Order', 3)
-        csv_tax_df_6 = move_column_inplace(csv_tax_df_5, 'Family', 4)
-        csv_tax_df_7 = move_column_inplace(csv_tax_df_6, 'Genus', 5)
-        csv_tax_df_7.sort_values("Species", inplace=True)
-        csv_tax_df_8 = csv_tax_df_7.drop_duplicates(keep=False)
+        tax_df_sub_0 = pd.merge(tax_df, csv_df, on=['Species_merged'], how='right')
+        tax_df_sub_0.sort_values("Species_merged", inplace=True)
+        tax_df_sub_1 = tax_df_sub_0.drop_duplicates(keep=False)
+        tax_df_sub_1['Species_merged'] = tax_df_sub_1['Species_merged'].str.replace(',', ' ')
 
         # export file
-        outfile = '{}_clean.csv'.format(out_prefix)
-        csv_tax_df_8.to_csv(outfile, index=False, header=True, sep=";")
+        outfile = '{}.taxonomy.csv'.format(out_prefix)
+        tax_df_sub_1.to_csv(outfile, index=False, header=True, sep=";")
 
 
 def main():
