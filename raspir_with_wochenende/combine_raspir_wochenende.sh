@@ -22,7 +22,7 @@
 input_file_wochenende=$1
 
 # do not edit!
-input_file_wochenende_short=${input_file_wochenende%.ndp.trm.s.mm.dup.mq30.calmd.bam.txt.rep.us.csv}
+input_file_wochenende_short=${input_file_wochenende%.ndp.%}
 input_file_raspir=${input_file_wochenende_short}.final_stats.csv
 
 echo $input_file_wochenende
