@@ -12,7 +12,7 @@
 #SBATCH --cpus-per-task 8
 
 # set name of job
-#SBATCH --job-name=run_centrifuge
+#SBATCH --job-name=combine_raspir_wochenende
 
 # Add miniconda3 to PATH. TODO - autodetection
 . /mnt/sfb900nfs/groups/tuemmler/mariep/miniconda3/etc/profile.d/conda.sh
