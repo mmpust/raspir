@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # run_raspir_wochenende_SLURM.sh
-# last updated: 04 August 2021
+# last updated: 06 December 2021
 
 # set partition
 #SBATCH -p normal
@@ -22,7 +22,7 @@
 conda activate raspir_env >> /dev/null
 
 input_csv=$1
-output_prefix=${input_csv%.ndp.trm.s.mm.dup.mq30.raspir.csv}
+output_prefix=${input_csv%.ndp.%}
 
 echo $input_csv
 echo $output_prefix
