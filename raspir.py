@@ -310,7 +310,7 @@ def process_csv(file_name, out_prefix, args):
     with open(file_name, newline='') as inF:
         df = pd.read_csv(inF, delimiter=',')
 
-        # filtering reads to human chromosomes
+        # filtering reads attrib to human chromosomes
         pattern_del = '1_1_1_'
         filter_approach = df['Organism'].str.contains(pattern_del, na=False)
         df = df[~filter_approach]
