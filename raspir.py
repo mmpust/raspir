@@ -175,7 +175,7 @@ def fourier_trans(x):
         stripped_name = species_name.split(sep)
         stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
     except:
-        logging.info('Warning  Name could not be parsed correctly using "_" splits: {}' species_name)
+        logging.info('Warning  Name could not be parsed correctly using "_" splits: {}', species_name)
         stripped_name = species_name
 
 
@@ -257,7 +257,7 @@ def make_freq_images(x, set_images):
             stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
             stripped_name3 = stripped_name[3] + '_' + stripped_name[4]
         except:
-            logging.info('Warning  Name could not be parsed correctly using "_" splits: {}' species_name)
+            logging.info('Warning  Name could not be parsed correctly using "_" splits: {}', species_name)
             stripped_name = species_name
             stripped_name3 = species_name
 
