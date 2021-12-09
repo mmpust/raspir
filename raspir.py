@@ -171,11 +171,15 @@ def make_time_domain(x):
 def fourier_trans(x):
     species_name = x['Organism'].iloc[0]
     sep = '_'
-    try:
-        stripped_name = species_name.split(sep)
-        stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
-    except:
-        logging.info('Warning  Name could not be parsed correctly using "_" splits: {}', species_name)
+    # check for separators and use try except to avoid errors
+    if species_name.contains(sep):
+        try:
+            stripped_name = species_name.split(sep)
+            stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
+        except:
+            logging.info('Warning  Name could not be parsed correctly using "_" splits: {}', species_name)
+            stripped_name = species_name
+    else:
         stripped_name = species_name
 
 
@@ -251,13 +255,17 @@ def make_freq_images(x, set_images):
         x_bio += [0]*b
         x_reference3 = np.sqrt(x_reference)
         sep = '_'
-        # add error handling in case separator not present for some taxa
-        try:
-            stripped_name = species_name.split(sep)
-            stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
-            stripped_name3 = stripped_name[3] + '_' + stripped_name[4]
-        except:
-            logging.info('Warning  Name could not be parsed correctly using "_" splits: {}', species_name)
+        # add error handling in case separator not present for some taxa. eg chrY etc from mouse
+        if species_name.contains(sep):
+            try:
+                stripped_name = species_name.split(sep)
+                stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
+                stripped_name3 = stripped_name[3] + '_' + stripped_name[4]
+            except:
+                logging.info('Warning  Name could not be parsed correctly using "_" splits: {}', species_name)
+                stripped_name = species_name
+                stripped_name3 = species_name
+        else:
             stripped_name = species_name
             stripped_name3 = species_name
 
