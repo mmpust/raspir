@@ -315,6 +315,7 @@ def process_csv(file_name, out_prefix, args):
         filter_approach = df['Organism'].str.contains(pattern_del, na=False)
         df = df[~filter_approach]
         logging.info('1a) Human reads have been removed')
+        
         # filtering  reads attributed to organisms starting with chr eg some human, mouse chrs
         pattern_del = 'chr'
         filter_approach = df['Organism'].str.startswith(pattern_del, na=False)
