@@ -314,7 +314,12 @@ def process_csv(file_name, out_prefix, args):
         pattern_del = '1_1_1_'
         filter_approach = df['Organism'].str.contains(pattern_del, na=False)
         df = df[~filter_approach]
-        logging.info('1) Human reads have been removed')
+        logging.info('1a) Human reads have been removed')
+        # filtering chr reads
+        pattern_del = '^chr'
+        filter_approach = df['Organism'].str.contains(pattern_del, na=False)
+        df = df[~filter_approach]
+        logging.info('1b) Human chr reads have been removed')
 
         # counting reads per organism
         df = df.dropna(subset=['GenomeLength'])
