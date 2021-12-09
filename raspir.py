@@ -171,8 +171,13 @@ def make_time_domain(x):
 def fourier_trans(x):
     species_name = x['Organism'].iloc[0]
     sep = '_'
-    stripped_name = species_name.split(sep)
-    stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
+    try:
+        stripped_name = species_name.split(sep)
+        stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
+    except:
+        logging.info('Warning  Name could not be parsed correctly using "_" splits: {}' species_name)
+        stripped_name = species_name
+
 
     x['fft_ref1'] = np.fft.fft(x['Reference'])
     x['fft_bio1'] = np.fft.fft(x['Real'])
@@ -246,9 +251,15 @@ def make_freq_images(x, set_images):
         x_bio += [0]*b
         x_reference3 = np.sqrt(x_reference)
         sep = '_'
-        stripped_name = species_name.split(sep)
-        stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
-        stripped_name3 = stripped_name[3] + '_' + stripped_name[4]
+        # add error handling in case separator not present for some taxa
+        try:
+            stripped_name = species_name.split(sep)
+            stripped_name2 = stripped_name[3] + ' ' + stripped_name[4]
+            stripped_name3 = stripped_name[3] + '_' + stripped_name[4]
+        except:
+            logging.info('Warning  Name could not be parsed correctly using "_" splits: {}' species_name)
+            stripped_name = species_name
+            stripped_name3 = species_name
 
         fig, ax1 = plt.subplots(1, 1, figsize=(2.5, 2))
         fig.suptitle(stripped_name2, style='italic', fontsize=4)
