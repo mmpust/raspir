@@ -109,7 +109,7 @@ def process_csv(file_name, out_prefix):
 
         csv_df.groupby(by=csv_df.columns, axis=1).sum()
         # remove all rows that sum to zero
-        cols_to_sum = csv_df.columns[: csv_df.shape[1] - 1]
+        cols_to_sum = csv_df.columns[: csv_df.shape[1]]
         csv_df['sum_all'] = csv_df[cols_to_sum].sum(axis=1)
         csv_df = csv_df[csv_df.sum_all != 0]
         csv_df = csv_df.drop('sum_all', 1)
