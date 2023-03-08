@@ -154,7 +154,7 @@ if [ $count != 0 ]
 			samtools view -b -F 4 $items > ${fname}_1.bam
 
 			# Sort bam file
-			samtools sort @ $cpus -${fname}_1.bam -o ${fname}.sorted.bam
+			samtools sort -@ $cpus ${fname}_1.bam -o ${fname}.sorted.bam
 		done
 fi
 
