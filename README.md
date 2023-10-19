@@ -57,21 +57,24 @@ mkdir run_raspir/
 
 ### Set-up the reference database <br>
 The reference database has to be downloaded and indexed only once. 
-The database contains only complete bacterial genomes with one strain per species.
-Note: You may also use a customised reference database. It is however strongly recommended to avoid draft or low-quality reference genomes and use complete sequences of circular microorganisms only.
+The database should contain only complete, circular genomes with one strain per species.
+Note: You may use a customised reference database. 
+It is however strongly recommended to avoid draft or low-quality reference genomes and use complete sequences of circular microorganisms only.
 
 ```bash
 # Load database into your working directory
 cd reference_database/
-# Get database from
-https://sync.academiccloud.de/index.php/s/DcKLpKtoKMHKvcn/download
+# Get high quality (default) database from Wochenende tool:
+https://drive.google.com/drive/folders/1q1btJCxtU15XXqfA-iCyNwgKgQq0SrG4
+# Source: https://github.com/MHH-RCUG/nf_wochenende.git
+
 # Unzip the reference database 
-gunzip complete_bacterialRefSeqs_201910_3.fasta
+gunzip 2021_12_human_bact_arch_fungi_vir.fa.gz
 
 # Generate an index of the reference fasta depending on the alignment tool of your choice
-samtools faidx complete_bacterialRefSeqs_201910_3.fasta
-bwa index complete_bacterialRefSeqs_201910_3.fasta
-bowtie2-build complete_bacterialRefSeqs_201910_3.fasta complete_bacterialRefSeqs_201910_3
+samtools faidx 2021_12_human_bact_arch_fungi_vir.fa.gz
+bwa index 2021_12_human_bact_arch_fungi_vir.fa.gz
+bowtie2-build 2021_12_human_bact_arch_fungi_vir.fa.gz 2021_12_human_bact_arch_fungi_vir
 cd ..
 ```
 
@@ -101,10 +104,10 @@ trimmomatic SE \
 # Burrows-Wheeler-Aligner (bwa)
 # see http://bio-bwa.sourceforge.net/
 # For paired-end reads
-bwa mem $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_3.fasta \
+bwa mem $YOURPATH/reference_database/2021_12_human_bact_arch_fungi_vir.fa.gz \
   R1.trim.fastq R2.trim.fastq > R.trim.bwa.sam
 # For single-end reads
-bwa mem $YOURPATH/reference_database/complete_bacterialRefSeqs_201910_3.fasta \
+bwa mem $YOURPATH/reference_database/2021_12_human_bact_arch_fungi_vir.fa.gz \
   R.trim.fastq > R.trim.bwa.sam
 
 # Bowtie2
